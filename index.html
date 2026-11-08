@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#09090f">
+  <title>AM Premium Activator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">AM</div>
+        <div><strong>AM Activator</strong><small>PERSONAL DASHBOARD</small></div>
+      </div>
+      <div class="side-label">WORKSPACE</div>
+      <a class="nav-item active" href="#dashboard"><span>▦</span> Dashboard</a>
+      <a class="nav-item" href="#activation"><span>✳</span> Activation</a>
+      <a class="nav-item" href="#activity"><span>≡</span> Activity Log</a>
+      <div class="sidebar-bottom">
+        <span class="live-dot"></span>
+        <span>API connection</span>
+        <strong id="connection-label">Checking...</strong>
+      </div>
+    </aside>
+
+    <main class="main-content" id="dashboard">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">PERSONAL WORKSPACE</div>
+          <h1>Dashboard</h1>
+          <p class="subheading">Manage your Alight Motion activation workflow.</p>
+        </div>
+        <button class="icon-button" id="refresh-stats" title="Refresh statistics" aria-label="Refresh statistics">↻</button>
+      </header>
+
+      <section class="stats-grid">
+        <article class="stat-card">
+          <div class="stat-top"><span>Total activation</span><span class="stat-icon">◎</span></div>
+          <div class="stat-value" id="total-stat">--</div>
+          <div class="stat-foot">All-time records</div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span>Today</span><span class="stat-icon">◷</span></div>
+          <div class="stat-value" id="today-stat">--</div>
+          <div class="stat-foot">Records today</div>
+        </article>
+        <article class="stat-card status-card">
+          <div class="stat-top"><span>Service status</span><span class="stat-icon">⌁</span></div>
+          <div class="stat-value status-value" id="service-stat">Checking</div>
+          <div class="stat-foot">parx-am.vercel.app</div>
+        </article>
+      </section>
+
+      <section class="content-grid" id="activation">
+        <article class="panel activation-panel">
+          <div class="panel-heading">
+            <div><div class="eyebrow">WORKFLOW</div><h2>Activation</h2></div>
+            <span class="step-chip">2 STEPS</span>
+          </div>
+
+          <div class="step-block">
+            <div class="step-heading"><span class="step-number">01</span><div><h3>Send magic link</h3><p>Request a sign-in link for your email.</p></div></div>
+            <form id="send-form">
+              <label for="send-email">Email address</label>
+              <div class="input-row">
+                <input id="send-email" type="email" placeholder="name@example.com" autocomplete="email" required>
+                <button class="primary-button" id="send-button" type="submit">Send link <span>↗</span></button>
+              </div>
+            </form>
+          </div>
+
+          <div class="step-divider"></div>
+
+          <div class="step-block">
+            <div class="step-heading"><span class="step-number">02</span><div><h3>Verify magic link</h3><p>Paste the link received in your email.</p></div></div>
+            <form id="verify-form">
+              <label for="verify-email">Email address</label>
+              <input id="verify-email" type="email" placeholder="name@example.com" autocomplete="email" required>
+              <label for="magic-link">Magic link</label>
+              <textarea id="magic-link" rows="3" placeholder="https://..." required></textarea>
+              <button class="primary-button full-button" id="verify-button" type="submit">Verify link <span>↗</span></button>
+            </form>
+          </div>
+          <div class="notice"><span>i</span><p>Use only an account and activation service you are authorized to access. Never share your magic link with anyone.</p></div>
+        </article>
+
+        <div class="right-column">
+          <article class="panel result-panel">
+            <div class="panel-heading"><div><div class="eyebrow">LATEST RESPONSE</div><h2>Result</h2></div><span class="result-indicator" id="result-indicator"></span></div>
+            <div class="empty-result" id="result-content">
+              <div class="empty-icon">⌁</div>
+              <strong>No activity yet</strong>
+              <p>Your latest API response will appear here.</p>
+            </div>
+          </article>
+
+          <article class="panel activity-panel" id="activity">
+            <div class="panel-heading"><div><div class="eyebrow">DEBUG CONSOLE</div><h2>Activity log</h2></div><button class="text-button" id="clear-log">Clear</button></div>
+            <div class="log-list" id="log-list"><div class="log-empty">Waiting for activity...</div></div>
+          </article>
+        </div>
+      </section>
+      <footer>AM ACTIVATOR <span>•</span> PERSONAL USE <span>•</span> VANILLA JS</footer>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
