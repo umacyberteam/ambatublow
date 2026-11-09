@@ -413,76 +413,71 @@ footer {
 
 <!-- Script khusus UI, bukan API -->
 <script>
-const $ = id => document.getElementById(id);
+(() => {
+  const $ = id => document.getElementById(id);
 
-let currentStep = 1;
+  const feedbackBox = $("feedback-box");
+  const resultIndicator = $("result-indicator");
+  const resultContent = $("result-content");
 
-const feedbackBox = $("feedback-box");
-const resultContent = $("result-content");
-const resultIndicator = $("result-indicator");
+  let currentStep = 1;
 
-function step(number) {
-  currentStep = number;
+  function step(number) {
+    currentStep = number;
 
-  for (let i = 1; i <= 3; i++) {
-    $("p" + i).classList.toggle("hide", i !== number);
+    ["n1", "n2", "n3"].forEach((id, index) => {
+      $(id).classList.toggle("active", index + 1 === number);
+      $(id).classList.toggle("done", index + 1 < number);
+    });
 
-    $("n" + i).className =
-      i < number ? "done" :
-      i === number ? "on" : "";
+    ["p1", "p2", "p3"].forEach((id, index) => {
+      $(id).classList.toggle("active", index + 1 === number);
+    });
+
+    $("p" + number).appendChild(feedbackBox);
   }
 
-  // Pindahkan feedback ke panel yang sedang aktif.
-  $("p" + number).appendChild(feedbackBox);
-}
-
-$("send-form").addEventListener("submit", () => {
-  $("w-em").textContent = $("send-email").value.trim();
-});
-
-$("back-button").addEventListener("click", () => {
+  // Posisi awal feedback
+  $("p1").appendChild(feedbackBox);
   step(1);
-});
 
-$("new-activation").addEventListener("click", () => {
-  $("send-email").value = "";
-  $("verify-email").value = "";
-  $("magic-link").value = "";
+  // Tombol kembali
+  $("b2").addEventListener("click", () => step(1));
 
-  resultContent.replaceChildren();
-  resultIndicator.className = "";
-  feedbackBox.className = "msg";
+  // Aktivasi baru
+  $("b5").addEventListener("click", () => {
+    $("em").value = "";
+    $("lk").value = "";
+    $("w-em").textContent = "";
+    feedbackBox.className = "msg";
+    resultContent.replaceChildren();
+    step(1);
+  });
 
-  step(1);
-});
+  // Pantau hasil request dari script.js
+  const observer = new MutationObserver(() => {
+    const status = resultIndicator.classList;
 
-// Deteksi hasil dari script.js.
-// Tidak ada request API di bagian ini.
-const observer = new MutationObserver(() => {
-  const isSuccess = resultIndicator.classList.contains("success");
-  const isError = resultIndicator.classList.contains("error");
-
-  if (isSuccess) {
-    feedbackBox.className = "msg ok";
-
-    if (currentStep === 1) {
-      $("verify-email").value = $("send-email").value.trim();
-      step(2);
-    } else if (currentStep === 2) {
-      step(3);
-
-      // Hasil verifikasi ditampilkan di panel DONE.
-      $("result-details").appendChild(resultContent);
+    if (status.contains("success")) {
+      if (currentStep === 1) {
+        $("w-em").textContent = $("send-email").value;
+        $("verify-email").value = $("send-email").value;
+        step(2);
+      } else if (currentStep === 2) {
+        step(3);
+      }
     }
-  } else if (isError) {
-    feedbackBox.className = "msg err";
-  }
-});
 
-observer.observe(resultContent, {
-  childList: true,
-  subtree: true
-});
+    if (status.contains("error")) {
+      feedbackBox.className = "msg error";
+    }
+  });
+
+  observer.observe(resultIndicator, {
+    attributes: true,
+    attributeFilter: ["class"]
+  });
+})();
 </script>
 
 </body>
