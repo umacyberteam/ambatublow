@@ -1,332 +1,489 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0a0a0b">
-  <title>am-activator | By arul</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    :root {
-      --bg: #0a0a0b;
-      --panel: #111113;
-      --line: #28252f;
-      --txt: #e8e8ea;
-      --dim: #898791;
-      --acc: #b794ff;
-      --acc-dim: #49366f;
-      --red: #e05252;
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0a0b">
+<title>𝗔𝗠𝗣</title>
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+<style>
+:root {
+  --bg: #0a0a0b;
+  --panel: #111113;
+  --line: #232326;
+  --txt: #e8e8ea;
+  --dim: #8a8a91;
+  --acc: #b99aff;
+  --acc-dim: #49366b;
+  --red: #e05252;
+}
 
-    body {
-      background: var(--bg);
-      color: var(--txt);
-      font-family: ui-monospace, 'Cascadia Code', Menlo, monospace;
-      font-size: 13px;
-      line-height: 1.6;
-      min-height: 100vh;
-      padding: 42px 16px;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    .wrap { width: 100%; max-width: 480px; margin: auto; }
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: ui-monospace, 'Cascadia Code', Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 48px 16px;
+}
 
-    header {
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 16px;
-      margin-bottom: 20px;
-    }
+.wrap {
+  width: 100%;
+  max-width: 460px;
+}
 
-    header h1 { font-size: 16px; letter-spacing: .02em; }
-    header h1 span { color: var(--acc); }
-    header p { color: var(--dim); font-size: 11px; margin-top: 4px; }
+header {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 14px;
+  margin-bottom: 20px;
+}
 
-    .steps { display: flex; margin-bottom: 18px; gap: 12px; }
-    .steps div {
-      flex: 1;
-      padding: 7px 0;
-      color: var(--dim);
-      border-bottom: 2px solid var(--line);
-      font-size: 11px;
-    }
-    .steps div.active { color: var(--txt); border-color: var(--acc); }
-    .steps div.done { color: var(--acc); border-color: var(--acc-dim); }
+header h1 {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: .02em;
+}
 
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      padding: 17px;
-      margin-bottom: 14px;
-    }
+header h1 span {
+  color: var(--acc);
+}
 
-    .panel h2 { font-size: 13px; margin-bottom: 5px; }
-    .hint { color: var(--dim); font-size: 11px; margin-bottom: 15px; }
+header p {
+  color: var(--dim);
+  font-size: 12px;
+  margin-top: 2px;
+}
 
-    .stats {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+.steps {
+  display: flex;
+  gap: 0;
+  margin-bottom: 18px;
+  font-size: 11px;
+}
 
-    .stat-label { color: var(--dim); font-size: 10px; letter-spacing: .05em; }
-    .stat-value { font-size: 21px; font-weight: 700; color: var(--acc); }
+.steps div {
+  flex: 1;
+  padding: 6px 0;
+  border-bottom: 2px solid var(--line);
+  color: var(--dim);
+}
 
-    label {
-      display: block;
-      color: var(--dim);
-      font-size: 11px;
-      margin-bottom: 5px;
-    }
+.steps div.on {
+  border-color: var(--acc);
+  color: var(--txt);
+}
 
-    input {
-      width: 100%;
-      background: var(--bg);
-      border: 1px solid var(--line);
-      color: var(--txt);
-      font: inherit;
-      padding: 10px 11px;
-      outline: none;
-      border-radius: 0;
-    }
+.steps div.done {
+  border-color: var(--acc-dim);
+  color: var(--acc);
+}
 
-    input:focus { border-color: var(--acc); }
-    input::placeholder { color: #55535d; }
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 18px;
+  margin-bottom: 14px;
+}
 
-    button {
-      background: var(--acc);
-      color: #160d24;
-      border: none;
-      font: inherit;
-      font-weight: 700;
-      padding: 9px 15px;
-      cursor: pointer;
-      margin-top: 12px;
-    }
+.panel h2 {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
 
-    button:hover { filter: brightness(1.1); }
-    button:disabled { opacity: .45; cursor: wait; }
+.panel .hint {
+  color: var(--dim);
+  font-size: 11.5px;
+  margin-bottom: 14px;
+}
 
-    button.secondary {
-      background: transparent;
-      color: var(--dim);
-      border: 1px solid var(--line);
-    }
+label {
+  display: block;
+  color: var(--dim);
+  font-size: 11px;
+  margin-bottom: 5px;
+  letter-spacing: .03em;
+}
 
-    .button-row { display: flex; gap: 8px; flex-wrap: wrap; }
-    .button-row button { flex: 1; }
+input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--txt);
+  font: inherit;
+  padding: 9px 11px;
+  outline: none;
+}
 
-    .status {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-      border-bottom: 1px solid var(--line);
-      font-size: 11px;
-    }
+input:focus {
+  border-color: var(--acc);
+}
 
-    .status:last-child { border-bottom: none; }
-    .status span { color: var(--dim); }
-    .status strong { color: var(--acc); font-weight: 500; }
+button {
+  background: var(--acc);
+  color: #100a19;
+  border: none;
+  font: inherit;
+  font-weight: 600;
+  padding: 9px 18px;
+  cursor: pointer;
+  margin-top: 12px;
+}
 
-    .result-indicator {
-      width: 8px;
-      height: 8px;
-      display: inline-block;
-      background: var(--dim);
-      margin-right: 7px;
-      border-radius: 50%;
-    }
+button.sec {
+  background: transparent;
+  color: var(--dim);
+  border: 1px solid var(--line);
+}
 
-    .result-indicator.success { background: #a78bfa; }
-    .result-indicator.error { background: var(--red); }
+button:disabled {
+  opacity: .45;
+  cursor: wait;
+}
 
-    .result-data { margin-top: 12px; }
+.msg {
+  padding: 9px 12px;
+  font-size: 12px;
+  margin: 12px 0;
+  display: none;
+}
 
-    .result-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 7px 0;
-      border-bottom: 1px solid var(--line);
-      font-size: 11px;
-    }
+.msg.err {
+  display: block;
+  background: #2a1414;
+  border: 1px solid #4a2020;
+  color: var(--red);
+}
 
-    .result-row span { color: var(--dim); }
-    .result-row strong {
-      text-align: right;
-      max-width: 65%;
-      overflow-wrap: anywhere;
-      font-weight: 500;
-    }
+.msg.ok {
+  display: block;
+  background: #1c1728;
+  border: 1px solid var(--acc-dim);
+  color: var(--acc);
+}
 
-    .log-list {
-      max-height: 210px;
-      overflow-y: auto;
-    }
+.result-indicator {
+  display: none;
+}
 
-    .log-entry {
-      display: flex;
-      gap: 10px;
-      padding: 6px 0;
-      border-bottom: 1px solid var(--line);
-      font-size: 10px;
-      overflow-wrap: anywhere;
-    }
+.result-data {
+  display: block;
+}
 
-    .log-time { color: #65616d; white-space: nowrap; }
-    .log-message { color: var(--dim); }
-    .log-entry.success .log-message { color: var(--acc); }
-    .log-entry.error .log-message { color: var(--red); }
-    .log-empty { color: #65616d; font-size: 11px; }
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--line);
+}
 
-    .section-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
+.result-row:last-child {
+  border-bottom: none;
+}
 
-    .section-title h2 { margin: 0; }
+.result-row span {
+  color: var(--dim);
+}
 
-    .small-button {
-      margin: 0;
-      padding: 4px 8px;
-      font-size: 10px;
-    }
+.result-row strong {
+  color: var(--txt);
+  font-weight: 400;
+  text-align: right;
+  word-break: break-all;
+  max-width: 65%;
+}
 
-    footer {
-      margin-top: 25px;
-      color: #494650;
-      font-size: 10px;
-      text-align: center;
-    }
+.kv {
+  display: flex;
+  justify-content: space-between;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+}
 
-    @media (max-width: 380px) {
-      body { padding: 25px 12px; }
-      .panel { padding: 14px; }
-    }
-  </style>
+.kv:last-child {
+  border-bottom: none;
+}
+
+.kv b {
+  color: var(--dim);
+  font-weight: 400;
+}
+
+.kv span {
+  color: var(--txt);
+  text-align: right;
+  word-break: break-all;
+  max-width: 60%;
+}
+
+button.tiny {
+  margin: 0;
+  padding: 4px 10px;
+  font-size: 11px;
+}
+
+footer {
+  margin-top: 26px;
+  color: #3f3f44;
+  font-size: 10.5px;
+  text-align: center;
+}
+
+.hide {
+  display: none;
+}
+
+#result-content:empty {
+  display: none;
+}
+
+.panel:not(.hide) {
+  animation: appear .25s ease;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#internal-elements {
+  display: none !important;
+}
+</style>
 </head>
 
 <body>
 <div class="wrap">
 
-  <header>
-    <h1>𝐀𝐌-𝐀𝐂𝐓𝐈𝐕𝐀𝐓𝐎𝐑 | <span>𝐁𝐘 𝐀𝐑𝐔𝐋</span></h1>
-    <p>Alight Motion Premium — Magic Link Activation</p>
-  </header>
+<header>
+  <h1>
+    𝐀𝐌-𝐀𝐂𝐓𝐈𝐕𝐀𝐓𝐎𝐑 |
+    <span style="color:var(--dim);font-weight:400">𝐁𝐘 𝐀𝐑𝐔𝐋</span>
+  </h1>
+  <p>𝗔𝗹𝗶𝗴𝗵𝘁 𝗠𝗼𝘁𝗶𝗼𝗻 𝗣𝗿𝗲𝗺𝗶𝘂𝗺 — 𝗠𝗮𝗴𝗶𝗰 𝗟𝗶𝗻𝗸 𝗔𝗰𝘁𝗶𝘃𝗮𝘁𝗶𝗼𝗻</p>
+</header>
 
-  <div class="steps">
-    <div id="n1" class="active">01. EMAIL</div>
-    <div id="n2">02. LINK</div>
-    <div id="n3">03. DONE</div>
+<div class="steps">
+  <div id="n1" class="on">1. 𝖤𝖬𝖠𝖨𝖫</div>
+  <div id="n2">𝟤. 𝖫𝖨𝖭𝖪</div>
+  <div id="n3">𝟥. 𝖣𝖮𝖭𝖤</div>
+</div>
+
+<div class="panel" style="display:flex;justify-content:space-between;align-items:center">
+  <div>
+    <div style="color:var(--dim);font-size:10.5px;letter-spacing:.05em">
+      TOTAL AKTIVASI
+    </div>
+    <div style="font-size:20px;font-weight:600;color:var(--acc)" id="total-stat">-</div>
   </div>
 
-  <div class="panel stats">
-    <div>
-      <div class="stat-label">TOTAL AKTIVASI</div>
-      <div class="stat-value" id="total-stat">--</div>
+  <div style="text-align:right">
+    <div style="color:var(--dim);font-size:10.5px;letter-spacing:.05em">
+      HARI INI
     </div>
-    <div style="text-align:right">
-      <div class="stat-label">HARI INI</div>
-      <div class="stat-value" id="today-stat">--</div>
-    </div>
+    <div style="font-size:20px;font-weight:600" id="today-stat">-</div>
   </div>
+</div>
 
-  <div class="panel">
-    <div class="section-title">
-      <h2>Service Status</h2>
-      <span id="service-stat" style="color:var(--dim)">Checking</span>
-    </div>
-    <div class="status">
-      <span>Connection</span>
-      <strong id="connection-label">Checking</strong>
-    </div>
-  </div>
+<!-- STEP 1 -->
+<div class="panel" id="p1">
+  <h2>𝖬𝖺𝗌𝗎𝗄𝗄𝖺𝗇 𝖤𝗆𝖺𝗂𝗅</h2>
 
-  <div class="panel">
-    <h2>01. Request Magic Link</h2>
-    <p class="hint">Masukkan email akun untuk menerima link verifikasi.</p>
+  <p class="hint">
+    𝖫𝖨𝖭𝖪 𝖫𝖮𝖦𝖨𝖭 𝖣𝖨𝖪𝖨𝖱𝖨𝖬 𝖬𝖤𝖫𝖠𝖫𝖴𝖨 𝖤𝖬𝖠𝖨𝖫,
+    𝖩𝖨𝖪𝖠 𝖳𝖨𝖣𝖠𝖪 𝖬𝖴𝖭𝖢𝖴𝖫 𝖢𝖤𝖪 𝖥𝖮𝖫𝖣𝖤𝖱 𝖲𝖯𝖠𝖬.
+  </p>
 
-    <form id="send-form">
-      <label for="send-email">EMAIL ADDRESS</label>
-      <input
-        id="send-email"
-        type="email"
-        placeholder="nama@gmail.com"
-        autocomplete="email"
-        required
-      >
-      <button id="send-button" type="submit">
-        Send link ↗
-      </button>
-    </form>
-  </div>
+  <form id="send-form">
+    <label for="send-email">𝖤𝗆𝖺𝗂𝗅</label>
 
-  <div class="panel">
-    <h2>02. Verify Magic Link</h2>
-    <p class="hint">Tempel link verifikasi yang diterima melalui email.</p>
+    <input
+      id="send-email"
+      type="email"
+      placeholder="nama@gmail.com"
+      autocomplete="email"
+      required
+    >
 
-    <form id="verify-form">
-      <label for="verify-email">EMAIL ADDRESS</label>
-      <input
-        id="verify-email"
-        type="email"
-        placeholder="nama@gmail.com"
-        autocomplete="email"
-        required
-      >
-
-      <label for="magic-link" style="margin-top:12px">MAGIC LINK</label>
-      <input
-        id="magic-link"
-        type="text"
-        placeholder="https://... atau magic link"
-        required
-      >
-
-      <button id="verify-button" type="submit">
-        Verify link ↗
-      </button>
-    </form>
-  </div>
-
-  <div class="panel">
-    <h2>Activation Result</h2>
-    <p class="hint">
-      <span id="result-indicator" class="result-indicator"></span>
-      Hasil request dan verifikasi
-    </p>
-    <div id="result-content" class="result-data">
-      <div class="log-empty">Waiting for activity...</div>
-    </div>
-  </div>
-
-  <div class="panel">
-    <div class="section-title">
-      <h2>Activity Logs</h2>
-      <button id="clear-log" class="secondary small-button" type="button">
-        Clear
-      </button>
-    </div>
-
-    <div id="log-list" class="log-list">
-      <div class="log-empty">Waiting for activity...</div>
-    </div>
-  </div>
-
-  <div style="text-align:right;margin-bottom:14px">
-    <button id="refresh-stats" class="secondary small-button" type="button">
-      ↻ Refresh Statistics
+    <button id="send-button" type="submit">
+      𝘒𝘐𝘙𝘐𝘔 𝘓𝘐𝘕𝘒 →
     </button>
-  </div>
+  </form>
+</div>
 
-  <footer>© all right reserved 2026</footer>
+<!-- STEP 2 -->
+<div class="panel hide" id="p2">
+  <h2>𝖳𝖾𝗆𝗉𝖾𝗅 𝖫𝗂𝗇𝗄</h2>
+
+  <p class="hint">
+    𝖫𝗂𝗇𝗄 𝖳𝖾𝗋𝗄𝗂𝗋𝗂𝗆 𝖪𝖾
+    <span id="w-em" style="color:var(--txt)">-</span>.
+    𝖢𝗈𝗉𝗒 𝖫𝗂𝗇𝗄 𝖣𝖺𝗋𝗂 𝖤𝗆𝖺𝗂𝗅, 𝖯𝖺𝗌𝗍𝖾 𝖣𝗂 𝖲𝗂𝗇𝗂.
+  </p>
+
+  <form id="verify-form">
+    <label for="verify-email">𝖤𝗆𝖺𝗂𝗅</label>
+
+    <input
+      id="verify-email"
+      type="email"
+      placeholder="nama@gmail.com"
+      autocomplete="email"
+      required
+    >
+
+    <label for="magic-link" style="margin-top:12px">
+      𝖫𝗂𝗇𝗄 𝖵𝖾𝗋𝗂𝖿𝗂𝗄𝖺𝗌𝗂
+    </label>
+
+    <input
+      id="magic-link"
+      type="text"
+      placeholder="https://..."
+      required
+    >
+
+    <button id="back-button" class="sec" type="button">
+      ← 𝖪𝖾𝗆𝖻𝖺𝗅𝗂
+    </button>
+
+    <button id="verify-button" type="submit">
+      𝖵𝖾𝗋𝗂𝖿𝗂𝗄𝖺𝗌𝗂 →
+    </button>
+  </form>
+</div>
+
+<!-- STEP 3 -->
+<div class="panel hide" id="p3">
+  <h2 style="color:var(--acc)">𝗣𝗥𝗘𝗠𝗜𝗨𝗠 𝗔𝗞𝗧𝗜𝗙</h2>
+
+  <p class="hint">
+    𝘋𝘌𝘛𝘈𝘐𝘓 𝘈𝘒𝘜𝘕 𝘋𝘐𝘉𝘈𝘞𝘈𝘏.
+  </p>
+
+  <div id="result-details"></div>
+
+  <button class="tiny sec" id="new-activation" type="button">
+    𝖠𝗄𝗍𝗂𝗏𝖺𝗌𝗂 𝖫𝖺𝗂𝗇
+  </button>
+</div>
+
+<!-- Feedback bersama -->
+<div id="feedback-box" class="msg">
+  <span id="result-indicator"></span>
+  <div id="result-content"></div>
+</div>
+
+<footer>© all right reserved 2026</footer>
+
+<!-- Elemen internal yang dibutuhkan script.js -->
+<div id="internal-elements">
+  <span id="service-stat">Checking</span>
+  <span id="connection-label">Checking</span>
+
+  <button id="refresh-stats" type="button"></button>
+  <button id="clear-log" type="button"></button>
+
+  <div id="log-list">
+    <div class="log-empty">Waiting for activity...</div>
+  </div>
+</div>
 
 </div>
 
-<script src="script.js" defer></script>
+<!-- Script khusus request dan scraping -->
+<script src="script.js"></script>
+
+<!-- Script khusus UI, bukan API -->
+<script>
+const $ = id => document.getElementById(id);
+
+let currentStep = 1;
+
+const feedbackBox = $("feedback-box");
+const resultContent = $("result-content");
+const resultIndicator = $("result-indicator");
+
+function step(number) {
+  currentStep = number;
+
+  for (let i = 1; i <= 3; i++) {
+    $("p" + i).classList.toggle("hide", i !== number);
+
+    $("n" + i).className =
+      i < number ? "done" :
+      i === number ? "on" : "";
+  }
+
+  // Pindahkan feedback ke panel yang sedang aktif.
+  $("p" + number).appendChild(feedbackBox);
+}
+
+$("send-form").addEventListener("submit", () => {
+  $("w-em").textContent = $("send-email").value.trim();
+});
+
+$("back-button").addEventListener("click", () => {
+  step(1);
+});
+
+$("new-activation").addEventListener("click", () => {
+  $("send-email").value = "";
+  $("verify-email").value = "";
+  $("magic-link").value = "";
+
+  resultContent.replaceChildren();
+  resultIndicator.className = "";
+  feedbackBox.className = "msg";
+
+  step(1);
+});
+
+// Deteksi hasil dari script.js.
+// Tidak ada request API di bagian ini.
+const observer = new MutationObserver(() => {
+  const isSuccess = resultIndicator.classList.contains("success");
+  const isError = resultIndicator.classList.contains("error");
+
+  if (isSuccess) {
+    feedbackBox.className = "msg ok";
+
+    if (currentStep === 1) {
+      $("verify-email").value = $("send-email").value.trim();
+      step(2);
+    } else if (currentStep === 2) {
+      step(3);
+
+      // Hasil verifikasi ditampilkan di panel DONE.
+      $("result-details").appendChild(resultContent);
+    }
+  } else if (isError) {
+    feedbackBox.className = "msg err";
+  }
+});
+
+observer.observe(resultContent, {
+  childList: true,
+  subtree: true
+});
+</script>
+
 </body>
 </html>
